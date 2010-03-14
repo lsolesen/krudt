@@ -56,7 +56,7 @@ And you can now see a standard crud interface at `http://localhost/myapp/tasks`
 Getting your app on github
 ---
 
-Your app starts out as a clone of krudt. If you want to push the app to a hosting site, such as guthub, you'll have to change the *remote* for your repository. You can do that like this:
+Your app starts out as a clone of krudt. If you want to push the app to a hosting site, such as github, you'll have to change the *remote* for your repository. You can do that like this:
 
     git remote rename origin krudt
     git remote add origin git://github.com/path/to/your/repo.git origin
@@ -67,5 +67,5 @@ If you ever need to pull in updates to krudt, you can do so with `git pull krudt
 
 ---
 
-That's all. For more info, see [Konstrukt](http://www.konstrukt.dk)
+That's all. For more info on how to edit the application, see [Konstrukt](http://www.konstrukt.dk).
 
