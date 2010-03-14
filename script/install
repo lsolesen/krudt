@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+echo "Creating default directories"
+if [ ! -e "var" ]
+then
+  mkdir var
+fi
+if [ ! -e "log" ]
+then
+  mkdir log
+  chmod 777 log
+fi
+if [ ! -e "migrations" ]
+then
+  mkdir migrations
+fi
+
+echo "Pulling thirdparty libraries"
+git submodule update --init
+script/subsub pull
+

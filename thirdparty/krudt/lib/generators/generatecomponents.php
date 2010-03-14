@@ -14,8 +14,8 @@ class generators_GenerateComponents {
   function run() {
     $dir_generator_templates = $this->dir_resources;
     $destination_root = getcwd();
-    if (console()->count_arguments() != 1) {
-      echo "USAGE: ".console()->script_filename()." [OPTIONS] model_plural_name\n";
+    if (console()->countArguments() != 1) {
+      echo "USAGE: ".console()->scriptFilename()." [OPTIONS] model_plural_name\n";
       echo "OPTIONS:\n";
       echo "  --dry              Simulate all changes.\n";
       echo "  --slug=FIELD_NAME  Use this field as slug. Defaults to 'id'.\n";
@@ -26,7 +26,7 @@ class generators_GenerateComponents {
       echo "Dry mode. No changes are actual.\n";
       filesys(new baselib_ReadonlyFilesys());
     }
-    filesys()->enable_debug();
+    filesys()->enableDebug();
 
     $model_plural_name = strtolower(console()->argument(0));
     if (!filesys()->is_file($destination_root."/lib/".$model_plural_name.".inc.php")) {
@@ -81,9 +81,9 @@ class generators_GenerateComponents {
   function replace_form_fields($php, $model_name, $fields = array()) {
     $all = array();
     foreach ($fields as $field) {
-      $all[] = "<?php print krudt_html_text_field(\$".$model_name.", '".$field."'); ?>";
+      $all[] = "<?php print form_text_field(\$".$model_name.", '".$field."'); ?>";
     }
-    return str_replace("<?php print krudt_html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
+    return str_replace("<?php print form_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
   }
 
   function replace_display_fields($php, $model_name, $fields = array()) {
