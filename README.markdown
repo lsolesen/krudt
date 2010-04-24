@@ -41,7 +41,7 @@ Usage
 
 You can now use the generators to create a model component:
 
-    script/generate_model task title:string content:blob created:datetime completed:datetime
+    script/generate/model task title:string content:blob created:datetime completed:datetime
 
 Make sure that your database has been migrated to the new version.
 
@@ -49,7 +49,7 @@ Make sure that your database has been migrated to the new version.
 
 You'd want an interface to go with this. Try running:
 
-    script/generate_components tasks --slug=title
+    script/generate/components tasks --slug=title
 
 And you can now see a standard crud interface at `http://localhost/myapp/tasks`
 
