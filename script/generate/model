@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+require_once dirname(__FILE__) . '/../../config/global.inc.php';
+require_once 'generators/generatemodel.php';
+
+$command = new generators_GenerateModel(dirname(__FILE__)."/../../thirdparty/krudt/resources");
+$command->run();
+

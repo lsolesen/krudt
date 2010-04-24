@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+require_once dirname(__FILE__) . '/../../config/global.inc.php';
+require_once 'generators/generatecomponents.php';
+
+$command = new generators_GenerateComponents(dirname(__FILE__)."/../../thirdparty/krudt/resources");
+$command->run();
