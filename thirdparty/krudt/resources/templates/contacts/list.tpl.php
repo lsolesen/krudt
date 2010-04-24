@@ -1,4 +1,11 @@
 <h1>Contacts</h1>
+<form action="<?php e(url()); ?>" method="get">
+    <fieldset>
+        <legend>Search</legend>
+        <?php echo html_text_field('q', $context->query('q')); ?>
+        <input type="submit" value="Søg" />
+    </fieldset>
+</form>
 <?php
     $fields = $contacts->getListableColumns();
     $rowlink = true;
@@ -9,7 +16,13 @@
     $sort_direction = strtolower($context->query('direction')) === 'desc' ? 'desc' : 'asc';
     $sort = $context->query('sort');
     $offset = ($context->query('page', 1) - 1) * $page_size;
-    $selection = $contacts->select($page_size, $offset, $sort, $sort_direction);
+    $selection = $mets->selectPaginated($context->query('page'), $page_size, $offset, $sort, $sort_direction);
+    $selection->setOrder($sort, $sort_direction);
+    if ($context->query('q')) {
+      $selection->setConjunctionOr();
+      $selection->addCriterion('name', '%' . $context->query('q') . '%', 'like');
+    }
+
 ?>
 <?php if (count($selection) > 0): ?>
 <?php
@@ -90,7 +103,7 @@
   <tfoot>
     <tr>
       <td colspan="<?php e($colspan) ?>">
-<?php echo collection_paginate($contacts, $page_size) ?>
+<?php echo collection_paginate($selection, $page_size, array('q')) ?>
       </td>
     </tr>
   </tfoot>
