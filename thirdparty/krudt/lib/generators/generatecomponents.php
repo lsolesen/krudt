@@ -35,7 +35,7 @@ class generators_GenerateComponents {
     $php = filesys()->get_contents($destination_root."/lib/".$model_plural_name.".inc.php");
     list($model_name, $model_fields) = $this->reflect_model($model_plural_name, $php);
     $slug_name = console()->option('slug', 'id');
-    $search_name = console()->option('search', 'slug');
+    $search_name = console()->option('search', $slug_name);
     $file_name = $model_plural_name;
 
     echo "Generating: model_name => ".$model_name.", model_plural_name => ".$model_plural_name."\n";
@@ -45,7 +45,6 @@ class generators_GenerateComponents {
     $content = $this->replace_names($content, $model_name, $model_plural_name);
     $content = $this->replace_fields($content, $model_fields);
     $content = $this->replace_slug($content, $model_name, $slug_name);
-    $content = $this->replace_search($content, $model_name, $search_name);
     filesys()->put_contents($destination_root."/lib/components/".$file_name."/list.php", $content);
 
     $content = filesys()->get_contents($dir_generator_templates."/lib/components/contacts/entry.php");
@@ -66,6 +65,7 @@ class generators_GenerateComponents {
           $content = $this->replace_display_fields($content, $model_name, $model_fields);
         } elseif ($entry == "list.tpl.php") {
           $content = $this->replace_slug($content, $model_name, $slug_name);
+          $content = $this->replace_search($content, $model_name, $search_name);
         }
         filesys()->put_contents($destination_root."/templates/".$file_name."/".$entry, $content);
       }
@@ -115,7 +115,8 @@ class generators_GenerateComponents {
   }
 
   function replace_search($php, $model_name, $search_name) {
-      $php = str_replace("\$selection->addCriterion('name', '%' . \$context->query('q') . '%', 'like')", "\$selection->addCriterion('".$search_name."', '%' . \$context->query('q') . '%', 'like')", $php);
+    $php = str_replace("'name', '%' . \$context->query('q')", "'".$search_name."', '%' . \$context->query('q')", $php);
+    return $php;
   }
 
   function reflect_model($model_plural_name, $php) {
