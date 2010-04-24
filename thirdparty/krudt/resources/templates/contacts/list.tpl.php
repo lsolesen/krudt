@@ -24,7 +24,7 @@
     }
 
 ?>
-<?php if (count($selection) > 0): ?>
+<?php if (count($fields) > 0): ?>
 <?php
       $has_row_actions = count($row_actions) > 0;
       $has_collection_actions = count($collection_actions) > 0;
