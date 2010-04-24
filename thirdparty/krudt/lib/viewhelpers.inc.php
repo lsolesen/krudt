@@ -287,16 +287,26 @@ function form_text_area($entry, $field, $label = null) {
 }
 
 /**
+ * Returns querystring value.
+ */
+function query($key, $default = null) {
+  return $GLOBALS['k_current_context']->query($key, $default);
+}
+
+/**
  * Creates a pagination widget for a collection.
  */
-function collection_paginate($collection, $size = 10) {
-  $page_size = $size;
-  $count = $collection->count();
+function collection_paginate($collection, $page_size = 10, $sticky_parameters = array()) {
+  $page_size = (integer) $page_size;
+  if ($page_size < 1) {
+    throw new Exception("Can't paginate with size < 1");
+  }
+  $count = count($collection);
   $last_page = (integer) ceil($count / $page_size);
   if ($last_page === 1) {
     return "";
   }
-  $page = $GLOBALS['k_current_context']->query('page', 1);
+  $page = query('page', 1);
   if ($page > $last_page) {
     $page = $last_page;
   }
@@ -304,11 +314,17 @@ function collection_paginate($collection, $size = 10) {
     $page = 1;
   }
   $html = "\n" . '<div class="pagination">';
+  $params = array();
+  foreach ($sticky_parameters as $key) {
+    $params[$key] = query($key);
+  }
+  array_filter($params);
   for ($ii = 1; $ii <= $last_page; ++$ii) {
     if ($ii == $page) {
       $html .= "\n" . '  <span class="current">' . $ii . '</span>';
     } else {
-      $html .= "\n" . '  <a href="' . escape($GLOBALS['k_current_context']->url('', array('page' => $ii))) . '">' . $ii . '</a>';
+      $params['page'] = $ii;
+      $html .= "\n" . '  <a href="' . escape(url('', $params)) . '">' . $ii . '</a>';
     }
   }
   $html .= "\n" . '</div>';
