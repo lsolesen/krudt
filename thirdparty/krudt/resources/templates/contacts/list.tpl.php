@@ -16,7 +16,7 @@
     $sort_direction = strtolower($context->query('direction')) === 'desc' ? 'desc' : 'asc';
     $sort = $context->query('sort');
     $offset = ($context->query('page', 1) - 1) * $page_size;
-    $selection = $mets->selectPaginated($context->query('page'), $page_size, $offset, $sort, $sort_direction);
+    $selection = $contacts->selectPaginated($context->query('page'), $page_size, $offset, $sort, $sort_direction);
     $selection->setOrder($sort, $sort_direction);
     if ($context->query('q')) {
       $selection->setConjunctionOr();
